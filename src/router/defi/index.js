@@ -3,11 +3,7 @@
  */
 export default [
   {
-    path: "/index",
-    redirect: "/"
-  },
-  {
-    path: "/",
+    path: "/defi",
     name: "index",
     component: resolve => {
       require.ensure(
@@ -25,7 +21,7 @@ export default [
     },
     children:[
       {
-        path: "defi",
+        path: "/",
         name: "defi",
         component: resolve => {
           require.ensure(

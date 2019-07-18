@@ -9,19 +9,17 @@ routerContext.keys().forEach(route => {
   if (route.startsWith("./index")) return;
   const routerModule = routerContext(route);
   routes = [...routes, ...(routerModule.default || routerModule)];
-  console.log(routes);
 });
 
 
 const router = new Router({
-  linkActiveClass: "active",
   routes: routes
 })
 
-
+console.log(store);
 router.beforeEach((to, from, next) => {
   //可以做 loadong 开始加载 效果
-  store.state.token = localStorage.getItem('userToken'); //获取本地存储的token
+  //store.state.token = localStorage.getItem('token'); //获取本地存储的token
   if (to.meta.title) { //判断是否有标题  该操作可以再监听路由时候处理 watch:{'$route'(to,from){xxx操作}}
     document.title = to.meta.title
   }

@@ -21,4 +21,8 @@ export const SET_TITLE = 'SET_TITLE'
 // token 存储
 export const LOGIN_IN = 'LOGIN_IN';//登入
 export const LOGIN_OUT = 'LOGIN_OUT';//登出
+// locale
+export const SET_LOCALE = 'SET_LOCALE';
+// 设置 userinfo
+export const SET_USERINFO = 'SET_USERINFO';
 

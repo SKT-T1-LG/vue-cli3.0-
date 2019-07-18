@@ -1,4 +1,6 @@
 import * as types from './mutation-types'
+import {getCookie, setCookie} from "../assets/js/utils/tool";
+
 const mutations = {
   // flag : true | false
   [types.SET_SHOWCOMMENT](state, flag){
@@ -36,12 +38,21 @@ const mutations = {
   //登入
   [types.LOGIN_IN](state, token) {
     state.token = token;
-    localStorage.setItem('token', token);
+    //localStorage.setItem('token', token);
+    setCookie('tk',token||'',1000 * 1000 * 60 * 30)
   },
   //登出 or 退出登入
   [types.LOGIN_OUT](state, token) {
-    localStorage.removeItem("token", token);
+    //localStorage.removeItem("token", token);
+    setCookie('tk', token)
     state.token = token;
+  },
+  [types.SET_LOCALE](state, locale){
+    state.locale = locale
+  },
+  [types.SET_USERINFO](state, userinfo){
+    localStorage.setItem('userinfo', userinfo)
+    state.userinfo = userinfo
   },
 }
 export default mutations

@@ -13,11 +13,13 @@
   font-size: @size;
   color: @color;
 }
+@color:#333;
 
 .bg-image(@url){
   background-image: ~"url(@{url}@2x.png)";
   background-repeat: no-repeat;
   background-position: center 0;
+  background-size: 100% 100%;
 }
 //清除浮动
 @clearfix :{

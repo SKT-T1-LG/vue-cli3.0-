@@ -6,10 +6,9 @@ import axios from 'axios';
 import {Toast} from 'vant';
 import store from '@/store/index'
 import router from '@/router/index'
-import {createParam, getCookie, storage, setCookie, getI18n} from "../utils/tool"
+import {createParam, getCookie, storage, getI18n} from "../utils/tool"
 import crypto from '../utils/crypto'
 
-let token = store.state.token || getCookie('tk');
 let pathReg = /retrieve|login|register/;
 let headers = {}
 if (location.hash.search(pathReg) == '-1') {
@@ -54,8 +53,8 @@ export function creatEncryptData(obj) {
 // 请求拦截器
 instance.interceptors.request.use(
   config => {
-    console.log(config);
-    const token = store.state.token;
+    const token = store.getters.token;
+    console.log(token);
     token && (config.headers.Authorization = token);
     return config;
   },
@@ -77,6 +76,7 @@ instance.interceptors.response.use(
   },
   // 服务器状态码不是200的情况
   error => {
+    console.log(error.data);
     if (error.data.code) {
       switch (error.data.code) {
         // 401: 未登录
@@ -105,7 +105,7 @@ instance.interceptors.response.use(
             forbidClick: true
           });
           // 清除token
-          localStorage.removeItem('token');
+          //localStorage.removeItem('token');
           store.commit('LOGIN_OUT', null);
           // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面
           setTimeout(() => {
@@ -151,9 +151,9 @@ const api = process.env.NODE_ENV == 'development' ? 'https://eapis.axonomy.pro' 
 export default function request(method, url, data) {
   url = api + url;
   if(url.search('/public/') == '-1' || url.search('/public/user/meta') != '-1'){
-    data["token"] = token;
+    //console.log(token);
+    data["token"] = store.getters.token;
   }
-  console.log(data);
   data = createData(data); // 加密
   data = {...data,request_id:createParam()};
   method = method.toLocaleLowerCase();
