@@ -2,7 +2,7 @@ const path = require('path');
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV); //是否生产环境
 const resolve = dir => path.join(__dirname, dir);
 
-module.export = {
+module.exports = {
   chainWebpack: config => {
     config.resolve.alias
       .set("@", resolve("src"))
@@ -44,8 +44,8 @@ module.export = {
     loaderOptions: {
       // 配置scss全局变量
       less: {
-        data: `@import "@/assets/lcss/mixin.less";
-               @import "@/assets/lcss/variable.less";` //!!!切记;不能丢
+        data: `@import "@/assets/less/mixin.less";
+               @import "@/assets/less/variable.less";` //!!!切记;不能丢
       }
     }
   }

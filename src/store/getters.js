@@ -20,4 +20,4 @@ export const setTitle = state => state.set_title
 export const locale = state =>state.locale || getI18n()
 // 获取userinfo
 export const userinfo = state => state.userinfo||localStorage.getItem('userinfo')
-export const token = state => state.token || getCookie('tk')
+export const token = state =>  state.token || getCookie('tk')

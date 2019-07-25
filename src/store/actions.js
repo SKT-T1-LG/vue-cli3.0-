@@ -15,7 +15,8 @@ export const commentArr = function({commit ,state},{arr, index}){
 }
 
 export const getLoginInInfo = function ({commit}, token) {
-  commit('LOGIN_IN', token)
+  console.log(token);
+  commit(types.LOGIN_IN, token)
 }
 
 export const getLoginOutInfo = function ({commit}, token) {

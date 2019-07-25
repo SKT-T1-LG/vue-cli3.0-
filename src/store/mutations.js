@@ -1,5 +1,5 @@
 import * as types from './mutation-types'
-import {getCookie, setCookie} from "../assets/js/utils/tool";
+import {setCookie} from "../assets/js/utils/tool";
 
 const mutations = {
   // flag : true | false
@@ -39,7 +39,7 @@ const mutations = {
   [types.LOGIN_IN](state, token) {
     state.token = token;
     //localStorage.setItem('token', token);
-    setCookie('tk',token||'',1000 * 1000 * 60 * 30)
+    setCookie('tk',token,1000 * 1000 * 60 * 30)
   },
   //登出 or 退出登入
   [types.LOGIN_OUT](state, token) {

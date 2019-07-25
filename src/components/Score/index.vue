@@ -93,14 +93,14 @@
     <div class="txt" v-if="!items.length">{{$t('project.Be_the_First_to_Rate')}}</div>
     <div class="kycWindow" v-if="isShowRatWindow" @click="hideRatWindowFun">
       <div class="inner">
-        <p class="des">
-          <img
-            src="../../assets/img/newProject/alert_cn.jpg"
-            alt
-            v-if="this.$storage.get('locale') == 'cn'"
-          >
-          <img src="../../assets/img/newProject/alert_en.jpg" alt v-else>
-        </p>
+        <!--<p class="des">-->
+          <!--<img-->
+            <!--src="../../assets/img/newProject/alert_cn.jpg"-->
+            <!--alt-->
+            <!--v-if="this.$storage.get('locale') == 'cn'"-->
+          <!--&gt;-->
+          <!--<img src="../../assets/img/newProject/alert_en.jpg" alt v-else>-->
+        <!--</p>-->
         <p class="kycbtn">
           <span class="esc" @click="jumpPublishStar" v-if="this.$storage.get('locale') == 'cn'">直接评分</span>
           <span class="esc" @click="jumpPublishStar" v-else>Rate</span>
@@ -113,8 +113,8 @@
 </template>
 
 <script>
-import star from "./star/star";
-import OffcialActivity from "./official_activities/index";
+import star from "@/components/Star";
+import OffcialActivity from "@/components/OfficialActivities";
 import {getCookie,hasToken} from "@/assets/js/utils/tool";
 import {api_getMyInfo} from "@/assets/js/request/api"
 export default {
@@ -143,6 +143,7 @@ export default {
     //获取自己的名称和ID
     async getMyInfo() {
       const {data,code} = await api_getMyInfo();
+      console.log(code);
       if (!this.token) {
         return;
       }
@@ -151,16 +152,13 @@ export default {
       }
     },
     To_pf() {
+      console.log(this.token);
       //判断是否登录
       if (!this.token) {
-        this.$router.push({
-          name: "login",
-          query: {
-            pagefrom: "details",
-            argument: this.$objToStr(this.$route.query)
-          }
+        this.$router.replace({
+          path: '/login',
+          query: {redirect: this.$router.currentRoute.fullPath}
         });
-        return false;
       } else {
         if (this.mySelfInfoData && this.mySelfInfoData.user_id) {
           if (this.topicid) {
@@ -210,7 +208,7 @@ export default {
   },
   computed: {
     score() {
-      return this.rating.rating / 2;
+      return 9.8||this.rating.rating / 2;
     },
     liLen() {
       return function(rate) {

@@ -94,7 +94,7 @@
   } from '@/assets/js/request/api'
   import areaCode from '@/components/areaCode'
   import {setCookie} from '@/assets/js/utils/tool'
-  import {mapGetters, mapMutations} from 'vuex'
+  import {mapGetters, mapMutations, mapActions} from 'vuex'
 
   export default {
     name: 'login',
@@ -136,7 +136,8 @@
       ...mapGetters(["locale","token"])
     },
     methods: {
-      ...mapMutations({setUserInfo: 'SET_USERINFO', login_in:'LOGIN_IN'}),
+      ...mapActions(['getLoginInInfo']),
+      //...mapMutations({setUserInfo: 'SET_USERINFO', login_in:'LOGIN_IN'}),
       closePage() {
         this.$router.push({
           path: '/defi',
@@ -240,24 +241,6 @@
         // })
       },
 
-      //获取用户信息
-      async getUserInfo() {
-        console.log(this.token);
-        let args = {"version": 0,  "token":this.token};
-        const {data,code} = await api_getUserInfo(args);
-        console.log(data, code);
-        if(code == 200){
-          let lang = data.lang == 0 ? 'cn' : 'en';
-          let time = 1000 * 1000 * 30 * 60;
-          setCookie('axon', lang, time);
-          console.log(this.locale);
-          if (this.locale != lang) {
-            this.$i18n.locale = lang
-          }
-          this.setUserInfo(JSON.stringify(data))
-        }
-
-      },
       // 登录
       async login() {
         if (this.login_type === 0) {   //验证码登录
@@ -269,7 +252,7 @@
             "invitation_code": this.invitation_code  // 邀请码(选填)
           }
           const {data} = await api_register(args);
-          this.login_in(data.token)
+          //this.login_in(data.token)
           this.getUserInfo();
         } else {     //密码登录
           let args = {
@@ -277,17 +260,31 @@
             "password": this.password
           }
           const {code,data,message} = await api_login(args)
-          console.log(data);
-          this.login_in(data.token)
+          console.log(code,data,"登录前的tk");
           if(code == 200){
-            this.login_in(data.token)
+            this.getLoginInInfo(data.token)
+            //this.login_in(data.token) mutation
+            localStorage.setItem('tk', data.token)
             this.getUserInfo();
-            this.$router.push('/defi')
+            this.$router.replace({path:'/defi'})
           }
         }
-
-      }
-      ,
+      },
+      async getUserInfo() {
+        let args = {
+          "token":this.token
+        };
+        const {data,code} = await api_getUserInfo(args);
+        console.log(data, code);
+        if(code == 200){
+          let lang = data.lang == 0 ? 'cn' : 'en';
+          setCookie('axon', lang);
+          if (this.locale != lang) {
+            this.$i18n.locale = lang
+          }
+          //this.setUserInfo(JSON.stringify(data))
+        }
+      },
       //清除填写的手机号
       clearnum() {
         this.target = '';

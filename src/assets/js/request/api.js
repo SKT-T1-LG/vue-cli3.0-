@@ -34,3 +34,9 @@ export const api_getMyInfo = params => requset('post',`/public/user/meta`, param
 // ReplyBOx
 // 发布观点
 export const api_toSubmit = (params,id) => requset('post',`/api/v1/resource/${id}/comments`, params||{})
+
+
+// 挖矿页面
+// /wk 页面 获取挖矿信息
+export const api_getWkInfo = (params) => requset('get',`/api/v1/user/me/mineral/mining/info`, params||{})
+

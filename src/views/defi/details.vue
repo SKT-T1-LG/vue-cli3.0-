@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <!--<v-head class="head" :title="title"></v-head>-->
+    <NavBar></NavBar>
     <Scroll ref="scroll" class="scroll">
       <div class="wrapper">
         <div class="header">
@@ -19,7 +19,7 @@
               <span>{{item_js.mine_revenue_desc}}</span>
             </div>
           </div>
-          <div v-if="item_js.tags.length" class="tag">
+          <div v-if="item_js.tags" class="tag">
             <span v-for="item in item_js.tags ">{{item}}</span>
           </div>
         </div>
@@ -61,6 +61,7 @@
 </template>
 
 <script>
+  import NavBar from '@/components/NavBar'
   import Scroll from '@/components/Scroll'
   import Score from "@/components/Score";
   import Share from "@/components/Share";
@@ -71,7 +72,6 @@
   import { mapGetters,mapMutations } from "vuex";
 
   export default {
-    name:'defidetails',
     data() {
       return {
         title: this.$t('axonomy.Details'),
@@ -144,10 +144,9 @@
       toBayJump(){
         this.popisshow = false;
         //腾讯点击上报
-        let MtaH5Id = String(this.item_js.id).replace(/\-/g, "_")+'_sku';
-        console.log(MtaH5Id);
-        MtaH5.clickStat(MtaH5Id);
-        console.log(this.item_js.type)
+        // let MtaH5Id = String(this.item_js.id).replace(/\-/g, "_")+'_sku';
+        // console.log(MtaH5Id);
+        // MtaH5.clickStat(MtaH5Id);
         if(this.item_js.type == 0){  // 购买
           this.$router.push({path:'/pay/sku', query:{goods_id:this.item_js.id}})
         }
@@ -227,10 +226,10 @@
       async getGoods() {
         const {data, code} = await api_getGoods({}, this.id)
         if(code == 200){
-          this.item_js = data.data;
+          this.item_js = data;
           this.req_js = false;
           //分享 
-          this.shareInfoFun();
+          //this.shareInfoFun();
         }
       },
       //获取项目评分
@@ -299,6 +298,7 @@
       this.setShowComment(false);
     },
     components: {
+      NavBar,
       Scroll,
       Score,
       dialogPop,

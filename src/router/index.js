@@ -16,7 +16,6 @@ const router = new Router({
   routes: routes
 })
 
-console.log(store);
 router.beforeEach((to, from, next) => {
   //可以做 loadong 开始加载 效果
   //store.state.token = localStorage.getItem('token'); //获取本地存储的token

@@ -1,63 +1,41 @@
 /**
- * 主页相关路由
+ * defi 页面路由
  */
 export default [
   {
     path: "/defi",
-    name: "index",
+    name: "defi",
     component: resolve => {
       require.ensure(
-        ["@/views/home/index.vue"],
+        ["@/views/defi/index.vue"],
         () => {
-          resolve(require("@/views/home/index.vue"));
+          resolve(require("@/views/defi/index.vue"));
         },
         "index"
       );
     },
     meta: {
-      title: "首页",
+      title: "defi",
       keepAlive: true,
+      requireAuth: false,
+    },
+  },
+  {
+    path: "/defi/project_details",
+    name: "index",
+    component: resolve => {
+      require.ensure(
+        ["@/views/defi/details.vue"],
+        () => {
+          resolve(require("@/views/defi/details.vue"));
+        },
+        "details"
+      );
+    },
+    meta: {
+      title: "details",
+      keepAlive: false,
       requireAuth: false
     },
-    children:[
-      {
-        path: "/",
-        name: "defi",
-        component: resolve => {
-          require.ensure(
-            ["@/views/defi/index.vue"],
-            () => {
-              resolve(require("@/views/defi/index.vue"));
-            },
-            "index"
-          );
-        },
-        meta: {
-          title: "defi",
-          keepAlive: true,
-          requireAuth: false,
-          active:'/defi'
-        },
-      },
-      {
-        path: "wk",
-        name: "wk",
-        component: resolve => {
-          require.ensure(
-            ["@/views/wakuang/index.vue"],
-            () => {
-              resolve(require("@/views/wakuang/index.vue"));
-            },
-            "index"
-          );
-        },
-        meta: {
-          title: "wakuang",
-          keepAlive: true,
-          requireAuth: false,
-          active:'/wk'
-        },
-      },
-    ]
   }
 ];

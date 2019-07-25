@@ -13,7 +13,6 @@
 
     <Scroll :pullup="true" class="wrapper" @scrollToEnd="scrollToEnd">
       <div>
-
         <div class="banner frame" v-if="bannerArr.length>0">
           <van-swipe :autoplay="3000" indicator-color="white">
             <van-swipe-item v-for="(image, index) in bannerArr" :key="index" height="230">
@@ -205,7 +204,6 @@
       async getBanner(){
         const { data } = await api_getBanner();
         this.bannerArr = data;
-        console.log(data);
       },
       // banner 图 跳转
       jumpHref(h){
@@ -214,11 +212,11 @@
       },
       toDetail(item){
         //腾讯点击上报
-        let MtaH5Id = String(item.id).replace(/\-/g, "_");
-        MtaH5.clickStat(MtaH5Id);
+        //let MtaH5Id = String(item.id).replace(/\-/g, "_");
+        //MtaH5.clickStat(MtaH5Id);
         this.setTitle(item.name);
         this.$router.push({
-          path:`/defi/project_id`,
+          path:`/defi/project_details`,
           query:{
             title:item.name,
             id:item.id
@@ -230,13 +228,6 @@
           this.page++;
           this.getList();
         }
-      },
-      replaceFun(str) {
-        if (typeof str != 'string') {
-          return;
-        }
-        let s = str.replace(/(\r\n)|(\n)/g, "<br/>");
-        return s;
       },
       // 获取列表
       async getList() {
@@ -263,17 +254,17 @@
             this.endlist = data.items.filter((item) => {
               return item.category == 3
             })
-          }
-          this.has_more = data.has_more
-          if(this.page>1){
+          }else if(this.page>1){
             this.endlist = this.endlist.concat(data.items)
           }
+          this.has_more = data.has_more
         }
       },
     },
     mounted() {
       this.getBanner();
       this.getList();
+      console.log(getCookie('tk'),"登录后的tk")
     }
   }
 </script>
@@ -329,7 +320,7 @@
   .wrapper{
     position: absolute;
     left: 0;
-    top: 190px;
+    top: 180px;
     height: 100%;
     width: 100%;
   }
@@ -390,7 +381,7 @@
     }
   }
   .list{
-    padding-bottom: 240px;
+    padding-bottom: 300px;
     h3{
       margin: 37px 0 37px 30px;
       height:36px;
@@ -425,7 +416,7 @@
           height:36px;
           font-size: 22px;
           font-weight: 600;
-          line-height: 36px;
+          line-height: 32px;
           text-align: center;
           color: #DD4F4F;
           background:rgba(221,79,79,0.1);
@@ -433,7 +424,7 @@
           border:1px solid rgba(221,79,79,1);
           padding: 0 12px;
           &.end{
-            max-width: 120px;
+            //max-width: 120px;
             background:rgba(167,164,182,1);
             border:1px solid rgba(167,164,182,1);
             color: #ffffff;

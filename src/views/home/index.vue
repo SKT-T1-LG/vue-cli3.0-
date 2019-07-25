@@ -1,16 +1,13 @@
 <template>
   <div class="home">
-      <router-view />
-      <footer-bar></footer-bar>
+    <router-link to="defi">aaaa</router-link>
   </div>
 </template>
 
 <script>
 
-  import footerBar from '@/components/footer'
   export default {
     name: 'home',
-    components:{footerBar},
     data(){
       return {
 

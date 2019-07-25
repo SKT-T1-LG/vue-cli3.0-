@@ -8,7 +8,7 @@ import store from '@/store/index'
 import router from '@/router/index'
 import {createParam, getCookie, storage, getI18n} from "../utils/tool"
 import crypto from '../utils/crypto'
-
+import baseUrl from './baseUrl'
 let pathReg = /retrieve|login|register/;
 let headers = {}
 if (location.hash.search(pathReg) == '-1') {
@@ -32,7 +32,6 @@ if (storage.get('tmid')) {
 //国际化
 headers.lang = getI18n() || 'en';
 headers.terminal = 'web';
-
 let instance = axios.create({
   headers,
   timeout: 5000
@@ -53,9 +52,8 @@ export function creatEncryptData(obj) {
 // 请求拦截器
 instance.interceptors.request.use(
   config => {
-    const token = store.getters.token;
-    console.log(token);
-    token && (config.headers.Authorization = token);
+    // const token = store.getters.token;
+    // token && (config.headers.Authorization = token);
     return config;
   },
   error => {
@@ -146,12 +144,12 @@ const createData = (data) => {
   };
 }
 // 环境的切换
-const api = process.env.NODE_ENV == 'development' ? 'https://eapis.axonomy.pro' : 'https://defi.axonomy.pro';
-
+// const api = process.env.NODE_ENV == 'development' ? 'https://eapis.axonomy.pro' : 'https://defi.axonomy.pro';
+// const api = process.env.NODE_ENV == 'development' ?  process.env.VUE_APP_BASE_API : process.env.VUE_APP_PRODUCTION_BASE_API;
+const api = baseUrl;
 export default function request(method, url, data) {
   url = api + url;
   if(url.search('/public/') == '-1' || url.search('/public/user/meta') != '-1'){
-    //console.log(token);
     data["token"] = store.getters.token;
   }
   data = createData(data); // 加密

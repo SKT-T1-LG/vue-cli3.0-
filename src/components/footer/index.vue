@@ -1,7 +1,7 @@
 <template>
   <div class="tabbar">
     <ul>
-      <li v-for="(item,index) in icon" @click="toTab(index)">
+      <li v-for="(item,index) in icon" @click="changeIcon(index)">
         <router-link :to="item.path">
           <img :src="active == index?item.icon_active:item.icon" />
           <p :class="{'text_active':active == index}">{{item.title}}</p>
@@ -29,31 +29,55 @@
         console.log(data);
         this.icon = data;
       },
-      toTab(i){
+      changeIcon(i){
         this.active = i;
-        console.log(this.$route.meta.active);
-        switch (i) {
-          case 0:
-            this.active = 0;
-            break;
-          case 1:
-            this.active = 1;
-            break;
-          case 2:
-            this.active = 2;
-            break;
-          case 3:
-            this.active = 3;
-            break;
-          case 4:
-            this.active = 4;
-            break;
+        if (this.active === 0) {
+          this.$router.push({
+            path: 'defi',
+            replace: true
+          })
+        } else if (this.active === 1) {
+          this.$router.push({
+            path: 'wk',
+            replace: true
+          })
+        } else if (this.active === 2) {
+          this.$router.push({
+            path: 'project',
+            replace: true
+          })
+        } else if (this.active === 3) {
+          this.$router.push({
+            path: 'trends',
+            replace: true
+          })
+        } else if (this.active === 4) {
+          this.$router.push({
+            path: 'money',
+            replace: true
+          })
         }
-      }
+      },
     },
     mounted() {
       this.getTag()
-    }
+      /**
+       * 判断当前页面是哪个页面,解决刷新时,tab默认为 1 的bug
+       */
+      const CURRENTHREF = window.location.hash.substr(1)
+      console.log(CURRENTHREF);
+      if (CURRENTHREF.includes('/defi')) {
+        this.active = 0
+      } else if (CURRENTHREF.includes('/wk')) {
+        this.active = 1
+      } else if (CURRENTHREF.includes('/project')) {
+        this.active = 2
+      } else if (CURRENTHREF.includes('/trends')) {
+        this.active = 3
+      } else if (CURRENTHREF.includes('/money')) {
+        this.active = 4
+      }
+    },
   }
 </script>
 
