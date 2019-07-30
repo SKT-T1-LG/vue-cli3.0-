@@ -3,6 +3,11 @@
 <span id="top">目录</span>
 
 - [√ 安装 @vue/cli并初始化](#install)
+- [√ 配置多环境变量](#env)
+- [√ 添加别名 alias](#alias)
+- [√ 为 less 配置全局变量](#less)
+- [√ 布局方案以及px自动转换rem](#px2rem)
+- [√ 路由拆分模块、懒加载以及自动引入](#router)
 
 
 ### <span id="install">☞ 安装@vue/cli并初始化</span>
@@ -100,7 +105,7 @@ module.exports = {
 
 [▲ 返回目录](#top)
  
-### <span id="sass">☞ 为 less 配置全局变量</span>
+### <span id="less">☞ 为 less 配置全局变量</span>
 我的less目录
 ````
 |-- assets
